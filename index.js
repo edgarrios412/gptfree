@@ -1,7 +1,7 @@
 const express = require("express")
 const { G4F } = require("g4f");
 const g4f = new G4F();
-
+const cron = require("node-cron")
 
 const app = express()
 
@@ -10,6 +10,10 @@ const app = express()
 //     source: "en",
 //     target: "es"
 // };
+
+cron.schedule("*/30 * * * * *", () => {
+    console.log("Activo")
+})
 
 const fn = async (theme) => {
     const messages = [

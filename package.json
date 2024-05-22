@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "express": "^4.19.2",
-    "g4f": "^1.4.3"
+    "g4f": "^1.4.3",
+    "node-cron": "^3.0.3"
   }
 }
