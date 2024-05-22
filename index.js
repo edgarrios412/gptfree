@@ -11,54 +11,23 @@ const app = express()
 //     target: "es"
 // };
 
-
-const fn = (prompt) => {
+const fn = async (theme) => {
     const messages = [
-        { role: "assistant", content: "Te llamas Edgar, eres un asistente de un gimnasio, la mensualidad vale 60mil pesos, solo recibes pago por Nequi o Daviplata o PSE, una vez el cliente pague tiene que enviarte el comprobante, tus respuesta son con emojis y eres sarcastico"},
-        { role: "user", content: "Dame un consejo de entrenamiento"}
+        { role: "assistant", content: "Eres programador y experto trabajando con JSON"},
+        { role: "user", content: `Genera un test de 10 preguntas, con 3 respuestas falsas y una respuesta verdadera, con una retroalimentación para el usuario cuando la respuesta es correcto y cuando la respuesta es incorrecta, tu respuesta debe ser un JSON y el tema es: ${theme}`}
     ];
-    g4f.chatCompletion(messages).then(console.log)
+    const response = await g4f.chatCompletion(messages)
+    return response
 }
 
 // g4f.translation(options2).then(console.log)
 
-const REQUEST_LIMIT = 1;
-const TIME_WINDOW = 5000; // 1 minuto en milisegundos
-
-let requestQueue = [];
-let currentRequests = 0;
-
-const processQueue = () => {
-  if (currentRequests < REQUEST_LIMIT && requestQueue.length > 0) {
-    currentRequests++;
-    const { req, res } = requestQueue.shift();
-    handleRequest(req, res);
-  }
-};
-
-const handleRequest = (req, res, next) => {
-    fn()
-    res.json("Enviado")
-  setTimeout(() => {
-    currentRequests--;
-    processQueue();
-  }, TIME_WINDOW / REQUEST_LIMIT);
-};
-
-app.use((req, res, next) => {
-  if (currentRequests < REQUEST_LIMIT) {
-    currentRequests++;
-    handleRequest(req, res);
-  } else {
-    requestQueue.push({ req, res });
-  }
-});
-
-app.get("/", (req,res) => {
-
-    res.json("Peticion enviada")
+app.get("/generateQuiz", async (req,res) => {
+    const {theme} = req.query
+    const response = await fn(theme)
+    res.json(JSON.parse(response))
 })
 
-app.listen(3002, () => {
+app.listen(3001, () => {
     console.log("Siu")
 })
