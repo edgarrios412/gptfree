@@ -14,7 +14,7 @@ const app = express()
 const fn = async (theme) => {
     const messages = [
         { role: "assistant", content: "Eres programador y experto trabajando con JSON"},
-        { role: "user", content: `Genera un test de 10 preguntas, con 3 respuestas falsas y una respuesta verdadera, tu respuesta debe ser un JSON y el tema es: ${theme}`}
+        { role: "user", content: `Genera un test de 10 preguntas, con 3 respuestas falsas y una respuesta verdadera, tu respuesta debe ser un JSON con esta estructura {preguntas:[{"pregunta": "¿Dónde nació Nicolás Maduro?", "respuesta_correcta": "b", "respuestas": {"a":"China","b":"Venezuela","c":"Mexico","d":"Estados Unidos"}}]} debes evitar cometer errores y no debes repetir preguntas o opciones de respuestas y el tema es: ${theme}`}
     ];
     const response = await g4f.chatCompletion(messages)
     return response
