@@ -11,10 +11,6 @@ const app = express()
 //     target: "es"
 // };
 
-cron.schedule("*/30 * * * * *", () => {
-    console.log("Activo")
-})
-
 const fn = async (theme) => {
     const messages = [
         { role: "assistant", content: "Eres programador y experto trabajando con JSON"},
@@ -32,6 +28,11 @@ app.get("/generateQuiz", async (req,res) => {
     res.json(JSON.parse(response))
 })
 
+app.get("/activate", async (req,res) => {
+    console.log("Activado por TELDIP BACKEND")
+    res.json("Activado")
+})
+
 app.listen(3001, () => {
-    console.log("Siu")
+    console.log("Escuchando en el puerto 3001")
 })
