@@ -14,7 +14,7 @@ const app = express()
 const fn = async (theme) => {
     const messages = [
         { role: "assistant", content: "Eres programador y experto trabajando con JSON"},
-        { role: "user", content: `Genera un test de 10 preguntas, con 3 respuestas falsas y una respuesta verdadera, con una retroalimentación para el usuario cuando la respuesta es correcto y cuando la respuesta es incorrecta, tu respuesta debe ser un JSON y el tema es: ${theme}`}
+        { role: "user", content: `Genera un test de 10 preguntas, con 3 respuestas falsas y una respuesta verdadera, tu respuesta debe ser un JSON y el tema es: ${theme}`}
     ];
     const response = await g4f.chatCompletion(messages)
     return response
