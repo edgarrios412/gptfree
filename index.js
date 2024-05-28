@@ -1,9 +1,14 @@
+const { default: axios } = require("axios");
 const express = require("express")
 const { G4F } = require("g4f");
 const g4f = new G4F();
 const cron = require("node-cron")
 
 const app = express()
+
+cron.schedule("*/30 * * * * *", () => {
+    axios.get("https://aisistente.onrender.com/activate").then(() => console.log("Teldip"))
+})
 
 // const options2 = {
 //     text: "With the imageGeneration function, you will be able to generate images from a text input and optional parameters that will provide you with millions of combinations to stylize each of the images.",
