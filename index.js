@@ -5,11 +5,11 @@ const { G4F } = require("g4f");
 const g4f = new G4F();
 const http = require('http');
 const PORT = process.env.PORT
-
+const { Server } = require("socket.io") 
 
 const app = express()
 const server = http.createServer(app);
-const io = require('socket.io')(server);
+const io = new Server(server);
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} se ha conectado`);
@@ -56,6 +56,6 @@ app.get("/activate", async (req,res) => {
     res.json("Activado")
 })
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("Escuchando en el puerto "+ PORT)
 })
