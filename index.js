@@ -5,7 +5,7 @@ const g4f = new G4F();
 const cron = require("node-cron")
 
 const app = express()
-const io = require('socket.io')(3010);
+const io = require('socket.io')(3001);
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} se ha conectado`);
