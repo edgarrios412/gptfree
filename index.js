@@ -5,10 +5,23 @@ const g4f = new G4F();
 const cron = require("node-cron")
 
 const app = express()
+const io = require('socket.io')(3010);
 
-cron.schedule("*/30 * * * * *", () => {
-    axios.get("https://aisistente.onrender.com/activate").then(() => console.log("Teldip"))
-})
+io.on('connection', (socket) => {
+    console.log(`${socket.id} se ha conectado`);
+    socket.on('quiz', (msg) => {
+        console.log('Se ha creado un QUIZ:', msg);
+        io.emit('quiz', msg);
+    });
+    socket.on('loadingQuiz', (msg) => {
+        console.log('Creando QUIZ:', msg);
+        io.emit('loadingQuiz', msg);
+    });
+    socket.on('respuesta', (msg) => {
+        console.log('Respuesta de '+socket.id+':', msg);
+        io.emit('respuesta', msg);
+    });
+});
 
 // const options2 = {
 //     text: "With the imageGeneration function, you will be able to generate images from a text input and optional parameters that will provide you with millions of combinations to stylize each of the images.",
@@ -29,6 +42,7 @@ const fn = async (theme) => {
 
 app.get("/generateQuiz", async (req,res) => {
     const {theme} = req.query
+    console.log(theme)
     const response = await fn(theme)
     res.json(JSON.parse(response))
 })
