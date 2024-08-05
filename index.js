@@ -1,11 +1,15 @@
+require("dotenv").config()
 const { default: axios } = require("axios");
 const express = require("express")
 const { G4F } = require("g4f");
 const g4f = new G4F();
-const cron = require("node-cron")
+const http = require('http');
+const PORT = process.env.PORT
+
 
 const app = express()
-const io = require('socket.io')(3002);
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} se ha conectado`);
@@ -52,6 +56,6 @@ app.get("/activate", async (req,res) => {
     res.json("Activado")
 })
 
-app.listen(3001, () => {
-    console.log("Escuchando en el puerto 3001")
+app.listen(PORT, () => {
+    console.log("Escuchando en el puerto "+ PORT)
 })
